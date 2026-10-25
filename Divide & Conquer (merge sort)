@@ -1,0 +1,45 @@
+#merge sort for online orders
+
+
+def merge_sort(orders):
+    if len(orders) <= 1:
+        return orders
+
+    mid = len(orders) // 2
+    left = merge_sort(orders[:mid])
+    right = merge_sort(orders[mid:])
+
+    return merge(left, right)
+
+
+def merge(left, right):
+    result = []
+    i = j = 0
+
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    result.extend(left[i:])
+    result.extend(right[j:])
+
+    return result
+
+
+# Main Program
+n = int(input("Enter number of orders: "))
+orders = []
+
+for i in range(n):
+    time = int(input("Enter delivery time in minutes: "))
+    orders.append(time)
+
+print("Original Delivery Times:", orders)
+
+sorted_orders = merge_sort(orders)
+
+print("Sorted Delivery Times:", sorted_orders)
