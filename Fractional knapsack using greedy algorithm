@@ -1,0 +1,43 @@
+
+n = int(input("Enter number of parcels: "))
+
+weights = []
+profits = []
+
+for i in range(n):
+    w = float(input("Enter weight: "))
+    p = float(input("Enter profit: "))
+    weights.append(w)
+    profits.append(p)
+
+capacity = float(input("Enter truck capacity: "))
+
+# Calculate profit-to-weight ratio
+items = []
+
+for i in range(n):
+    ratio = profits[i] / weights[i]
+    items.append((ratio, weights[i], profits[i], i + 1))
+
+# Sort by ratio in descending order
+items.sort(reverse=True)
+
+total_profit = 0
+
+print("\nSelected Parcels:")
+
+for ratio, weight, profit, parcel in items:
+    if capacity <= 0:
+        break
+
+    if weight <= capacity:
+        capacity -= weight
+        total_profit += profit
+        print("Parcel", parcel, "- Full parcel selected")
+    else:
+        fraction = capacity / weight
+        total_profit += profit * fraction
+        print("Parcel", parcel, "- Fraction selected:", round(fraction, 2))
+        capacity = 0
+
+print("Maximum Profit:", round(total_profit, 2))
